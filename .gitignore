@@ -1,0 +1,86 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+.env/
+.venv/
+
+# Environment variables
+.env
+
+# Django
+*.log
+db.sqlite3
+db.sqlite3-journal
+
+# Static & media
+staticfiles/
+media/
+
+# Migrations (optional)
+# */migrations/*
+# !*/migrations/__init__.py
+
+# PyCharm
+.idea/
+
+# pytest
+.pytest_cache/
+
+# coverage
+htmlcov/
+.coverage
+.coverage.*
+
+# mypy
+.mypy_cache/
+
+# Docker
+docker-compose.override.yml
+
+# Node
+node_modules/
+
+# Build files
+dist/
+build/
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# Redis dump
+dump.rdb
+
+# Logs
+logs/
+*.log
+
+# Swagger/OpenAPI generated files
+swagger.json
+swagger.yaml
+
+# Gunicorn
+gunicorn.pid
+
+# Temporary files
+*.tmp
+*.bak
+
+# pip
+pip-wheel-metadata/
+
+# pytest env
+.pytest_cache/
+
+# type checker
+.pyre/
+
+# Ruff
+.ruff_cache/
+
+# Jupyter
+.ipynb_checkpoints/
