@@ -11,6 +11,7 @@ python = ">=3.14, <4.0"
 djangorestframework = "^3.17.1"
 django = "^6.0.5"
 psycopg2-binary = "^2.9.12"
+djangorestframework-simplejwt = "^5.5.1"
 
 
 [build-system]
