@@ -14,6 +14,6 @@ class CarModel(BaseModel):
         db_table = 'cars'
         ordering = ['id']
 
-    name = models.CharField(max_length=255)
     brand = models.ForeignKey(BrandModel, on_delete=models.CASCADE, related_name='models')
+    name = models.CharField(max_length=255)
 

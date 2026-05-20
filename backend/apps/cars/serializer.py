@@ -9,7 +9,6 @@ class CarSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'name',
-            'brand'
         )
 
 class BrandSerializer(serializers.ModelSerializer):
@@ -19,6 +18,19 @@ class BrandSerializer(serializers.ModelSerializer):
         model = BrandModel
         fields = (
             'id',
-            'brand'
+            'brand',
+            'models'
         )
+
+    def create(self, validated_data: dict):
+        models = validated_data.pop('models')
+        brand = BrandModel.objects.create(**validated_data)
+        for model in models:
+            CarModel.objects.create(brand=brand, **model)
+        return brand
+
+class CarRequestSerializer(serializers.Serializer):
+    brand = serializers.CharField(max_length=255)
+    models = CarSerializer(many=True)
+
 
