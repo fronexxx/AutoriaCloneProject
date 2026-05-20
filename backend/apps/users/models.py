@@ -11,6 +11,7 @@ from apps.users.roles_and_account_type import AccountType, Role
 class CustomUserModel(AbstractBaseUser, PermissionsMixin, BaseModel):
     class Meta:
         db_table = 'auth_user'
+        ordering = ['id']
 
     email = models.EmailField(unique=True)
     is_active = models.BooleanField(default=True)

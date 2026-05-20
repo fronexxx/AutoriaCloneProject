@@ -1,0 +1,72 @@
+[
+  {"model": "cars.brandmodel", "pk": 1, "fields": {"brand": "BMW"}},
+  {"model": "cars.brandmodel", "pk": 2, "fields": {"brand": "Mercedes-Benz"}},
+  {"model": "cars.brandmodel", "pk": 3, "fields": {"brand": "Audi"}},
+  {"model": "cars.brandmodel", "pk": 4, "fields": {"brand": "Toyota"}},
+  {"model": "cars.brandmodel", "pk": 5, "fields": {"brand": "Volkswagen"}},
+  {"model": "cars.brandmodel", "pk": 6, "fields": {"brand": "Honda"}},
+  {"model": "cars.brandmodel", "pk": 7, "fields": {"brand": "Ford"}},
+  {"model": "cars.brandmodel", "pk": 8, "fields": {"brand": "Chevrolet"}},
+  {"model": "cars.brandmodel", "pk": 9, "fields": {"brand": "Hyundai"}},
+  {"model": "cars.brandmodel", "pk": 10, "fields": {"brand": "Kia"}},
+
+  {"model": "cars.carmodel", "pk": 1, "fields": {"name": "X5", "brand": 1, "created_at": "2024-01-01 00:00:00", "updated_at": "2024-01-01 00:00:00"}},
+  {"model": "cars.carmodel", "pk": 2, "fields": {"name": "X6", "brand": 1, "created_at": "2024-01-01 00:00:00", "updated_at": "2024-01-01 00:00:00"}},
+  {"model": "cars.carmodel", "pk": 3, "fields": {"name": "M3", "brand": 1, "created_at": "2024-01-01 00:00:00", "updated_at": "2024-01-01 00:00:00"}},
+  {"model": "cars.carmodel", "pk": 4, "fields": {"name": "3 Series", "brand": 1, "created_at": "2024-01-01 00:00:00", "updated_at": "2024-01-01 00:00:00"}},
+  {"model": "cars.carmodel", "pk": 5, "fields": {"name": "5 Series", "brand": 1, "created_at": "2024-01-01 00:00:00", "updated_at": "2024-01-01 00:00:00"}},
+
+  {"model": "cars.carmodel", "pk": 6, "fields": {"name": "C-Class", "brand": 2, "created_at": "2024-01-01 00:00:00", "updated_at": "2024-01-01 00:00:00"}},
+  {"model": "cars.carmodel", "pk": 7, "fields": {"name": "E-Class", "brand": 2, "created_at": "2024-01-01 00:00:00", "updated_at": "2024-01-01 00:00:00"}},
+  {"model": "cars.carmodel", "pk": 8, "fields": {"name": "S-Class", "brand": 2, "created_at": "2024-01-01 00:00:00", "updated_at": "2024-01-01 00:00:00"}},
+  {"model": "cars.carmodel", "pk": 9, "fields": {"name": "GLE", "brand": 2, "created_at": "2024-01-01 00:00:00", "updated_at": "2024-01-01 00:00:00"}},
+  {"model": "cars.carmodel", "pk": 10, "fields": {"name": "GLC", "brand": 2, "created_at": "2024-01-01 00:00:00", "updated_at": "2024-01-01 00:00:00"}},
+
+  {"model": "cars.carmodel", "pk": 11, "fields": {"name": "A4", "brand": 3, "created_at": "2024-01-01 00:00:00", "updated_at": "2024-01-01 00:00:00"}},
+  {"model": "cars.carmodel", "pk": 12, "fields": {"name": "A6", "brand": 3, "created_at": "2024-01-01 00:00:00", "updated_at": "2024-01-01 00:00:00"}},
+  {"model": "cars.carmodel", "pk": 13, "fields": {"name": "Q5", "brand": 3, "created_at": "2024-01-01 00:00:00", "updated_at": "2024-01-01 00:00:00"}},
+  {"model": "cars.carmodel", "pk": 14, "fields": {"name": "Q7", "brand": 3, "created_at": "2024-01-01 00:00:00", "updated_at": "2024-01-01 00:00:00"}},
+  {"model": "cars.carmodel", "pk": 15, "fields": {"name": "TT", "brand": 3, "created_at": "2024-01-01 00:00:00", "updated_at": "2024-01-01 00:00:00"}},
+
+  {"model": "cars.carmodel", "pk": 16, "fields": {"name": "Camry", "brand": 4, "created_at": "2024-01-01 00:00:00", "updated_at": "2024-01-01 00:00:00"}},
+  {"model": "cars.carmodel", "pk": 17, "fields": {"name": "Corolla", "brand": 4, "created_at": "2024-01-01 00:00:00", "updated_at": "2024-01-01 00:00:00"}},
+  {"model": "cars.carmodel", "pk": 18, "fields": {"name": "RAV4", "brand": 4, "created_at": "2024-01-01 00:00:00", "updated_at": "2024-01-01 00:00:00"}},
+  {"model": "cars.carmodel", "pk": 19, "fields": {"name": "Land Cruiser", "brand": 4, "created_at": "2024-01-01 00:00:00", "updated_at": "2024-01-01 00:00:00"}},
+  {"model": "cars.carmodel", "pk": 20, "fields": {"name": "Prius", "brand": 4, "created_at": "2024-01-01 00:00:00", "updated_at": "2024-01-01 00:00:00"}},
+
+  {"model": "cars.carmodel", "pk": 21, "fields": {"name": "Golf", "brand": 5, "created_at": "2024-01-01 00:00:00", "updated_at": "2024-01-01 00:00:00"}},
+  {"model": "cars.carmodel", "pk": 22, "fields": {"name": "Passat", "brand": 5, "created_at": "2024-01-01 00:00:00", "updated_at": "2024-01-01 00:00:00"}},
+  {"model": "cars.carmodel", "pk": 23, "fields": {"name": "Tiguan", "brand": 5, "created_at": "2024-01-01 00:00:00", "updated_at": "2024-01-01 00:00:00"}},
+  {"model": "cars.carmodel", "pk": 24, "fields": {"name": "Touareg", "brand": 5, "created_at": "2024-01-01 00:00:00", "updated_at": "2024-01-01 00:00:00"}},
+  {"model": "cars.carmodel", "pk": 25, "fields": {"name": "Polo", "brand": 5, "created_at": "2024-01-01 00:00:00", "updated_at": "2024-01-01 00:00:00"}},
+
+  {"model": "cars.carmodel", "pk": 26, "fields": {"name": "Civic", "brand": 6, "created_at": "2024-01-01 00:00:00", "updated_at": "2024-01-01 00:00:00"}},
+  {"model": "cars.carmodel", "pk": 27, "fields": {"name": "Accord", "brand": 6, "created_at": "2024-01-01 00:00:00", "updated_at": "2024-01-01 00:00:00"}},
+  {"model": "cars.carmodel", "pk": 28, "fields": {"name": "CR-V", "brand": 6, "created_at": "2024-01-01 00:00:00", "updated_at": "2024-01-01 00:00:00"}},
+  {"model": "cars.carmodel", "pk": 29, "fields": {"name": "HR-V", "brand": 6, "created_at": "2024-01-01 00:00:00", "updated_at": "2024-01-01 00:00:00"}},
+  {"model": "cars.carmodel", "pk": 30, "fields": {"name": "Pilot", "brand": 6, "created_at": "2024-01-01 00:00:00", "updated_at": "2024-01-01 00:00:00"}},
+
+  {"model": "cars.carmodel", "pk": 31, "fields": {"name": "Focus", "brand": 7, "created_at": "2024-01-01 00:00:00", "updated_at": "2024-01-01 00:00:00"}},
+  {"model": "cars.carmodel", "pk": 32, "fields": {"name": "Mustang", "brand": 7, "created_at": "2024-01-01 00:00:00", "updated_at": "2024-01-01 00:00:00"}},
+  {"model": "cars.carmodel", "pk": 33, "fields": {"name": "Explorer", "brand": 7, "created_at": "2024-01-01 00:00:00", "updated_at": "2024-01-01 00:00:00"}},
+  {"model": "cars.carmodel", "pk": 34, "fields": {"name": "F-150", "brand": 7, "created_at": "2024-01-01 00:00:00", "updated_at": "2024-01-01 00:00:00"}},
+  {"model": "cars.carmodel", "pk": 35, "fields": {"name": "Escape", "brand": 7, "created_at": "2024-01-01 00:00:00", "updated_at": "2024-01-01 00:00:00"}},
+
+  {"model": "cars.carmodel", "pk": 36, "fields": {"name": "Camaro", "brand": 8, "created_at": "2024-01-01 00:00:00", "updated_at": "2024-01-01 00:00:00"}},
+  {"model": "cars.carmodel", "pk": 37, "fields": {"name": "Corvette", "brand": 8, "created_at": "2024-01-01 00:00:00", "updated_at": "2024-01-01 00:00:00"}},
+  {"model": "cars.carmodel", "pk": 38, "fields": {"name": "Malibu", "brand": 8, "created_at": "2024-01-01 00:00:00", "updated_at": "2024-01-01 00:00:00"}},
+  {"model": "cars.carmodel", "pk": 39, "fields": {"name": "Equinox", "brand": 8, "created_at": "2024-01-01 00:00:00", "updated_at": "2024-01-01 00:00:00"}},
+  {"model": "cars.carmodel", "pk": 40, "fields": {"name": "Tahoe", "brand": 8, "created_at": "2024-01-01 00:00:00", "updated_at": "2024-01-01 00:00:00"}},
+
+  {"model": "cars.carmodel", "pk": 41, "fields": {"name": "Elantra", "brand": 9, "created_at": "2024-01-01 00:00:00", "updated_at": "2024-01-01 00:00:00"}},
+  {"model": "cars.carmodel", "pk": 42, "fields": {"name": "Sonata", "brand": 9, "created_at": "2024-01-01 00:00:00", "updated_at": "2024-01-01 00:00:00"}},
+  {"model": "cars.carmodel", "pk": 43, "fields": {"name": "Tucson", "brand": 9, "created_at": "2024-01-01 00:00:00", "updated_at": "2024-01-01 00:00:00"}},
+  {"model": "cars.carmodel", "pk": 44, "fields": {"name": "Santa Fe", "brand": 9, "created_at": "2024-01-01 00:00:00", "updated_at": "2024-01-01 00:00:00"}},
+  {"model": "cars.carmodel", "pk": 45, "fields": {"name": "i30", "brand": 9, "created_at": "2024-01-01 00:00:00", "updated_at": "2024-01-01 00:00:00"}},
+
+  {"model": "cars.carmodel", "pk": 46, "fields": {"name": "Sportage", "brand": 10, "created_at": "2024-01-01 00:00:00", "updated_at": "2024-01-01 00:00:00"}},
+  {"model": "cars.carmodel", "pk": 47, "fields": {"name": "Sorento", "brand": 10, "created_at": "2024-01-01 00:00:00", "updated_at": "2024-01-01 00:00:00"}},
+  {"model": "cars.carmodel", "pk": 48, "fields": {"name": "Cerato", "brand": 10, "created_at": "2024-01-01 00:00:00", "updated_at": "2024-01-01 00:00:00"}},
+  {"model": "cars.carmodel", "pk": 49, "fields": {"name": "Stinger", "brand": 10, "created_at": "2024-01-01 00:00:00", "updated_at": "2024-01-01 00:00:00"}},
+  {"model": "cars.carmodel", "pk": 50, "fields": {"name": "Telluride", "brand": 10, "created_at": "2024-01-01 00:00:00", "updated_at": "2024-01-01 00:00:00"}}
+]

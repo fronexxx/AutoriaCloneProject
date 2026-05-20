@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 
 from rest_framework import serializers
 
-from apps.users.models import ProfileModel
+from apps.users.models import CustomUserModel, ProfileModel
 
 from .models import Role
 
@@ -53,12 +53,12 @@ class UserSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
-        if instance.role == Role.ADMIN:
+        if instance.role in (Role.ADMIN, Role.MANAGER):
             data.pop('account_type', None)
         return data
 
-
-    def validate_role(self, value):
+    @staticmethod
+    def validate_role(value):
         allowed = [Role.BUYER, Role.SELLER]
 
         if value not in allowed:
@@ -71,3 +71,13 @@ class UserSerializer(serializers.ModelSerializer):
         user = UserModel.objects.create_user(**validated_data)
         ProfileModel.objects.create(**profile, user=user)
         return user
+
+class UserAdminSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUserModel
+        fields = (
+            'id',
+            'email',
+            'role',
+            'is_staff',
+        )
