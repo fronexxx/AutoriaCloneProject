@@ -7,8 +7,8 @@ from rest_framework.views import APIView
 
 from core.services.email_service import EmailService
 
-from apps.cars.models import BrandModel, CarModel
-from apps.cars.serializer import BrandSerializer, CarRequestSerializer, CarSerializer
+from apps.cars.models import BrandModel
+from apps.cars.serializer import BrandSerializer, CarRequestSerializer
 from apps.users.permissions import IsAdmin, IsManager
 
 
@@ -29,7 +29,7 @@ class ListCarByBrandView(APIView):
 
         try:
             brand = BrandModel.objects.get(pk=pk)
-        except CarModel.DoesNotExist:
+        except BrandModel.DoesNotExist:
             return Response({'details': 'Not Found'}, status=status.HTTP_404_NOT_FOUND)
 
         serializer = BrandSerializer(brand)

@@ -21,3 +21,17 @@ services:
     ports:
       - "5432:5432"
     restart: on-failure
+
+  redis:
+    image: redis:alpine
+
+  celery:
+    build:
+      context: .
+    volumes:
+      - ./backend:/app
+    env_file:
+      - .env
+    restart: on-failure
+    command: >
+      sh -c "celery -A config worker -l info"

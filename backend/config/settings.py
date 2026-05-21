@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.staticfiles',
     'rest_framework_simplejwt',
+    'django_celery_results',
+    'django_celery_beat', 
 
     # my_apps
     'core',

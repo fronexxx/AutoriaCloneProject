@@ -4,6 +4,8 @@ from django.contrib.auth import get_user_model
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
 
+from config.celery import app
+
 from apps.users.roles_and_account_type import Role
 
 UserModel = get_user_model()
@@ -11,6 +13,7 @@ UserModel = get_user_model()
 
 class EmailService:
     @staticmethod
+    @app.task
     def __send_email(to: list[str], template_name: str, context: dict, subject: str):
         template = get_template(template_name)
         html_content = template.render(context)
@@ -26,7 +29,7 @@ class EmailService:
     def send_car_request(cls, user, data):
         admins_and_managers = UserModel.objects.filter(role__in=[Role.ADMIN, Role.MANAGER], is_active=True).values_list('email', flat=True)
 
-        cls.__send_email(
+        cls.__send_email.delay(
             to=list(admins_and_managers),
             template_name='request_car.html',
             context={'user': user.email, 'brand': data['brand'], 'models': data['models']},
