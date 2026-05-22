@@ -38,9 +38,9 @@ class ListingCreateSerializer(serializers.ModelSerializer):
         )
 
     @staticmethod
-    def validate_price(value: int):
+    def validate_price(value):
         if value <= 0:
-            return serializers.ValidationError('Price must be grater that 0')
+            raise serializers.ValidationError('Price must be grater that 0')
         return value
 
 
