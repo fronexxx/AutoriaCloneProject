@@ -41,9 +41,19 @@ class IsSeller(BasePermission):
         return obj.owner == request.user
 
 class IsBasicAccountType(BasePermission):
-    def has_object_permission(self, request: Request, view, obj):
-        return request.user.account_type == AccountType.BASIC
+    def has_permission(self, request: Request, view):
+        return bool(
+            request.user and
+            request.user.is_authenticated and
+            request.user.account_type == AccountType.BASIC
+        )
+
+
 
 class IsPremiumAccountType(BasePermission):
-    def has_object_permission(self, request: Request, view, obj):
-        return request.user.account_type == AccountType.PREMIUM
+    def has_permission(self, request: Request, view):
+        return bool(
+            request.user and
+            request.user.is_authenticated and
+            request.user.account_type == AccountType.PREMIUM
+        )

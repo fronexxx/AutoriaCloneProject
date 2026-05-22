@@ -29,6 +29,17 @@ class BrandSerializer(serializers.ModelSerializer):
             CarModel.objects.create(brand=brand, **model)
         return brand
 
+class CarDetailSerializer(serializers.ModelSerializer):
+    brand = serializers.CharField(source='brand.brand', read_only=True)
+
+    class Meta:
+        model = CarModel
+        fields = (
+            'id',
+            'brand',
+            'name',
+        )
+
 class CarRequestSerializer(serializers.Serializer):
     brand = serializers.CharField(max_length=255)
     models = CarSerializer(many=True)
