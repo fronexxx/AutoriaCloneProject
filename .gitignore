@@ -85,3 +85,5 @@ pip-wheel-metadata/
 
 # Jupyter
 .ipynb_checkpoints/
+
+/backend/bad_words.txt
