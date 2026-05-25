@@ -25,7 +25,7 @@ class ListingSerializer(serializers.ModelSerializer):
             'edit_attempts'
         )
 
-class ListingCreateSerializer(serializers.ModelSerializer):
+class ListingCreateUpdateDeleteSerializer(serializers.ModelSerializer):
     class Meta:
         model = ListingModel
         fields = (
@@ -36,6 +36,7 @@ class ListingCreateSerializer(serializers.ModelSerializer):
             'currency',
             'region',
         )
+
 
     @staticmethod
     def validate_price(value):
