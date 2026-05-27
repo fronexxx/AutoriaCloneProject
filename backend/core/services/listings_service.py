@@ -1,7 +1,7 @@
-from rest_framework.exceptions import ValidationError
-
 from better_profanity import profanity
 from core.constants.choices import StatusChoices
+
+from .email_service import EmailService
 
 profanity.load_censor_words_from_file('bad_words.txt')
 
@@ -17,7 +17,7 @@ def profanity_validation(listing):
         listing.edit_attempts += 1
         if listing.edit_attempts >= 3:
             listing.status = StatusChoices.INACTIVE
-            # profanity_email(listing)
+            EmailService.send_profanity_error_emai(listing)
         else:
             listing.status = StatusChoices.PENDING
 

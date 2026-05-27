@@ -72,7 +72,17 @@ class ListingUpdateView(GenericAPIView):
             raise NotFound('Listing does not exist')
         data = self.request.data
 
-        serializer = ListingCreateUpdateDeleteSerializer(listing, data=data)
+        if listing.status == StatusChoices.INACTIVE:
+            return Response(
+                {
+                    'message': (
+                        'Listing blocked due to profanity. '
+                        'Manager has been notified.')
+                },
+                status=status.HTTP_403_FORBIDDEN
+            )
+
+        serializer = ListingCreateUpdateDeleteSerializer(listing, data=data, partial=True)
         serializer.is_valid(raise_exception=True)
 
         listing = serializer.save()
@@ -87,7 +97,7 @@ class ListingUpdateView(GenericAPIView):
             return Response(
                 {
                     'message':
-                        'Listing created successfully.',
+                        'Listing updated successfully.',
                     'listing': response_serializer.data
                 },
                 status=status.HTTP_201_CREATED
@@ -103,7 +113,6 @@ class ListingUpdateView(GenericAPIView):
                 },
                 status=status.HTTP_201_CREATED
             )
-
         return Response(
             {
                 'message': (
@@ -113,6 +122,8 @@ class ListingUpdateView(GenericAPIView):
             },
             status=status.HTTP_201_CREATED
         )
+
+
 
 
 class ListingDestroyView(GenericAPIView):
