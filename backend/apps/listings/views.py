@@ -2,21 +2,57 @@ from django.http import Http404
 
 from rest_framework import status
 from rest_framework.exceptions import NotFound
-from rest_framework.generics import GenericAPIView, ListAPIView
+from rest_framework.generics import GenericAPIView, ListAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from core.constants.choices import StatusChoices
+from core.services.currency_service import CurrencyService
 from core.services.listings_service import profanity_validation
 
-from apps.listings.models import ListingModel
-from apps.listings.serializer import ListingCreateUpdateDeleteSerializer, ListingSerializer
+from apps.listings.models import ListingModel, ListingStatsModel
+from apps.listings.serializer import ListingCreateUpdateDeleteSerializer, ListingDetailSerializer, ListingSerializer
 from apps.users.permissions import IsSeller
 
 
-class ListingListView(ListAPIView):
+class PublicListingListView(ListAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = ListingSerializer
+    queryset = ListingModel.objects.filter(
+        status=StatusChoices.ACTIVE
+    )
+
+class PrivateListingListView(ListAPIView):
+    permission_classes = (IsSeller, )
+    serializer_class = ListingDetailSerializer
+
+    def get_queryset(self):
+        return ListingModel.objects.filter(
+            owner=self.request.user
+        )
+
+class PublicListingRetrieveView(RetrieveAPIView):
+    permission_classes = (IsAuthenticated, )
+    serializer_class = ListingSerializer
+    queryset = ListingModel.objects.filter(
+        status=StatusChoices.ACTIVE
+    )
+
+    def get(self, *args, **kwargs):
+        listing = self.get_object()
+
+        listing.stats.views_total += 1
+
+        listing.stats.save()
+
+        serializer = self.get_serializer(listing)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class PrivateListingRetrieveView(RetrieveAPIView):
+    permission_classes = (IsSeller, )
+    serializer_class = ListingDetailSerializer
     queryset = ListingModel.objects.all()
 
 
@@ -26,10 +62,18 @@ class ListingCreateView(GenericAPIView):
 
     def post(self, *args, **kwargs):
         data = self.request.data
+        rates = CurrencyService.get_exchange_rates()
         serializer = ListingCreateUpdateDeleteSerializer(data=data)
         serializer.is_valid(raise_exception=True)
 
-        listing = serializer.save(owner=self.request.user)
+        converted_price = CurrencyService.convert_price(
+            price=serializer.validated_data['price'],
+            currency=serializer.validated_data['currency'],
+            exchange_rate=rates
+        )
+
+        listing = serializer.save(owner=self.request.user, exchange_rate=rates, price_converted=converted_price)
+        ListingStatsModel.objects.create(listing=listing)
 
         profanity_validation(listing)
 
@@ -71,6 +115,7 @@ class ListingUpdateView(GenericAPIView):
         except Http404:
             raise NotFound('Listing does not exist')
         data = self.request.data
+        rates = CurrencyService.get_exchange_rates()
 
         if listing.status == StatusChoices.INACTIVE:
             return Response(
@@ -84,8 +129,13 @@ class ListingUpdateView(GenericAPIView):
 
         serializer = ListingCreateUpdateDeleteSerializer(listing, data=data, partial=True)
         serializer.is_valid(raise_exception=True)
+        converted_price = CurrencyService.convert_price(
+            price=serializer.validated_data['price'],
+            currency=serializer.validated_data['currency'],
+            exchange_rate=rates
+        )
 
-        listing = serializer.save()
+        listing = serializer.save(exchange_rate=rates, price_converted=converted_price)
 
         profanity_validation(listing)
 
@@ -122,8 +172,6 @@ class ListingUpdateView(GenericAPIView):
             },
             status=status.HTTP_201_CREATED
         )
-
-
 
 
 class ListingDestroyView(GenericAPIView):

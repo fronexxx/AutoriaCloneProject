@@ -21,6 +21,7 @@ class ListingModel(BaseModel):
     owner = models.ForeignKey(UserModel, on_delete=models.CASCADE, related_name='listings')
     car = models.ForeignKey(CarModel, on_delete=models.PROTECT)
     price = models.FloatField()
+    price_converted = models.JSONField(default=dict)
     currency = models.CharField(max_length=3, choices=CurrencyChoices)
     exchange_rate = models.JSONField(blank=True, null=True)
     region = models.CharField(max_length=30, choices=RegionChoices)
