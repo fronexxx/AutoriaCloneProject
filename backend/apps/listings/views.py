@@ -1,9 +1,12 @@
+from datetime import timedelta
+
 from django.http import Http404
+from django.utils import timezone
 
 from rest_framework import status
 from rest_framework.exceptions import NotFound
 from rest_framework.generics import GenericAPIView, ListAPIView, RetrieveAPIView
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
 from core.constants.choices import StatusChoices
@@ -16,14 +19,15 @@ from apps.users.permissions import IsSeller
 
 
 class PublicListingListView(ListAPIView):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (AllowAny,)
     serializer_class = ListingSerializer
     queryset = ListingModel.objects.filter(
         status=StatusChoices.ACTIVE
     )
 
+
 class PrivateListingListView(ListAPIView):
-    permission_classes = (IsSeller, )
+    permission_classes = (IsSeller,)
     serializer_class = ListingDetailSerializer
 
     def get_queryset(self):
@@ -31,8 +35,9 @@ class PrivateListingListView(ListAPIView):
             owner=self.request.user
         )
 
+
 class PublicListingRetrieveView(RetrieveAPIView):
-    permission_classes = (IsAuthenticated, )
+    permission_classes = (AllowAny,)
     serializer_class = ListingSerializer
     queryset = ListingModel.objects.filter(
         status=StatusChoices.ACTIVE
@@ -40,10 +45,26 @@ class PublicListingRetrieveView(RetrieveAPIView):
 
     def get(self, *args, **kwargs):
         listing = self.get_object()
+        stats = listing.stats
 
-        listing.stats.views_total += 1
+        now = timezone.now()
 
-        listing.stats.save()
+        if not stats.last_view_at or stats.last_view_at.date() != now.date():
+            stats.views_daily = 0
+
+        if not stats.last_view_at or now - stats.last_view_at > timedelta(days=7):
+            stats.views_weekly = 0
+
+        if not stats.last_view_at or now.month != stats.last_view_at.month:
+            stats.views_monthly = 0
+
+        if listing.owner != self.request.user:
+            stats.views_total += 1
+            stats.views_daily += 1
+            stats.views_weekly += 1
+            stats.views_monthly += 1
+            stats.last_view_at = now
+            stats.save()
 
         serializer = self.get_serializer(listing)
 
@@ -51,7 +72,7 @@ class PublicListingRetrieveView(RetrieveAPIView):
 
 
 class PrivateListingRetrieveView(RetrieveAPIView):
-    permission_classes = (IsSeller, )
+    permission_classes = (IsSeller,)
     serializer_class = ListingDetailSerializer
     queryset = ListingModel.objects.all()
 

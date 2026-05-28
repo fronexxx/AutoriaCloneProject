@@ -41,5 +41,6 @@ class ListingStatsModel(models.Model):
     views_monthly = models.IntegerField(default=0)
     avg_price_region = models.FloatField(null=True, blank=True)
     avg_price_country = models.FloatField(null=True, blank=True)
+    last_view_at = models.DateTimeField(null=True, blank=True)
     listing = models.OneToOneField(ListingModel, on_delete=models.CASCADE, related_name='stats')
 
