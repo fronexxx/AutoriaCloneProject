@@ -5,6 +5,7 @@ from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
 
 from config.celery import app
+from core.services.jwt_service import ActivateToken, JWTService
 
 from apps.users.roles_and_account_type import Role
 
@@ -47,6 +48,17 @@ class EmailService:
                 context={'id': listing.id,   'title': listing.title, 'description': listing.description},
                 subject='Profanity detected'
             )
+
+    @classmethod
+    def register(cls, user):
+        token = str(JWTService.create_token(user, ActivateToken))
+        cls.__send_email.delay(
+            to=(user.email, ),
+            template_name='register.html',
+            context={'token': token},
+            subject='Activate your account'
+        )
+
 
             
 

@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework_simplejwt',
     'django_celery_results',
-    'django_celery_beat', 
+    'django_celery_beat',
+    'rest_framework_simplejwt.token_blacklist',
 
     # my_apps
     'core',

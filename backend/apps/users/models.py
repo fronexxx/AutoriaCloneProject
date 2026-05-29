@@ -21,7 +21,7 @@ class CustomUserModel(AbstractBaseUser, PermissionsMixin, BaseModel):
         ordering = ['id']
 
     email = models.EmailField(unique=True)
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     role = models.CharField(max_length=7, choices=Role)
     previous_role = models.CharField(max_length=7, blank=True, null=True, choices=Role, default=None)
