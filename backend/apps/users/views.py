@@ -2,12 +2,14 @@ from django.contrib.auth import get_user_model
 
 from rest_framework import status
 from rest_framework.generics import CreateAPIView, GenericAPIView, ListAPIView
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
+from apps.users.models import PaymentModel, PaymentStatusChoices
 from apps.users.permissions import IsAdmin, IsManager
-from apps.users.roles_and_account_type import Role
-from apps.users.serializers import UserAdminSerializer, UserSerializer
+from apps.users.roles_and_account_type import AccountType, Role
+from apps.users.serializers import PaymentSerializer, UserAdminSerializer, UserSerializer
 
 UserModel = get_user_model()
 
@@ -90,3 +92,32 @@ class UnBlockUserView(GenericAPIView):
 
         serializer = UserSerializer(user)
         return Response(serializer.data, status.HTTP_200_OK)
+
+
+class BuyPremiumView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, *args, **kwargs):
+        amount_price = 1000
+        user = self.request.user
+
+        if user.account_type == AccountType.PREMIUM:
+            return Response({'details': 'Your account type is already premium'}, status=status.HTTP_409_CONFLICT)
+
+        payment = PaymentModel.objects.create(
+            user=user,
+            amount=amount_price,
+            status=PaymentStatusChoices.SUCCESS
+        )
+        user.account_type = AccountType.PREMIUM
+        user.save()
+
+        serializer = PaymentSerializer(payment)
+
+        return Response(
+            {
+                'details': 'premium activated',
+                'data': serializer.data
+            },
+            status=status.HTTP_200_OK
+        )

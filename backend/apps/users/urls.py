@@ -2,6 +2,7 @@ from django.urls import path
 
 from apps.users.views import (
     BlockUserView,
+    BuyPremiumView,
     ManagerToUserView,
     UnBlockUserView,
     UserCreateView,
@@ -16,4 +17,5 @@ urlpatterns = [
     path('/<int:pk>/to_user', ManagerToUserView.as_view(), name='manager_to_user'),
     path('/<int:pk>/block', BlockUserView.as_view(), name='user_block'),
     path('/<int:pk>/unblock', UnBlockUserView.as_view(), name='user_unblock'),
+    path('/payments/buy-premium', BuyPremiumView.as_view(), name='user_buy_premium'),
 ]

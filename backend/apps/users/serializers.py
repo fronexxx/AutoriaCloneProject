@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 
 from rest_framework import serializers
 
-from apps.users.models import CustomUserModel, ProfileModel
+from apps.users.models import CustomUserModel, PaymentModel, ProfileModel
 
 from .models import Role
 
@@ -16,10 +16,17 @@ class ProfileSerializer(serializers.ModelSerializer):
             'id',
             'name',
             'surname',
+            'phone_number',
             'created_at',
-            'updated_at'
+            'updated_at',
         )
 
+    def validate_phone_number(self, value: str):
+
+        if value.startswith('0'):
+            value = '+38' + value
+
+        return value
 
 class UserSerializer(serializers.ModelSerializer):
     profile = ProfileSerializer()
@@ -80,4 +87,18 @@ class UserAdminSerializer(serializers.ModelSerializer):
             'email',
             'role',
             'is_staff',
+        )
+
+class PaymentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PaymentModel
+        fields = (
+            'id',
+            'amount',
+            'status'
+        )
+        read_only_fields = (
+            'id',
+            'amount',
+            'status'
         )

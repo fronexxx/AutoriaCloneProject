@@ -1,17 +1,14 @@
-from datetime import timedelta
-
 from django.http import Http404
-from django.utils import timezone
 
 from rest_framework import status
 from rest_framework.exceptions import NotFound
 from rest_framework.generics import GenericAPIView, ListAPIView, RetrieveAPIView
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
 from core.constants.choices import StatusChoices
 from core.services.currency_service import CurrencyService
-from core.services.listings_service import profanity_validation
+from core.services.listings_service import ListingsService
 
 from apps.listings.models import ListingModel, ListingStatsModel
 from apps.listings.serializer import ListingCreateUpdateDeleteSerializer, ListingDetailSerializer, ListingSerializer
@@ -45,29 +42,9 @@ class PublicListingRetrieveView(RetrieveAPIView):
 
     def get(self, *args, **kwargs):
         listing = self.get_object()
-        stats = listing.stats
-
-        now = timezone.now()
-
-        if not stats.last_view_at or stats.last_view_at.date() != now.date():
-            stats.views_daily = 0
-
-        if not stats.last_view_at or now - stats.last_view_at > timedelta(days=7):
-            stats.views_weekly = 0
-
-        if not stats.last_view_at or now.month != stats.last_view_at.month:
-            stats.views_monthly = 0
-
-        if listing.owner != self.request.user:
-            stats.views_total += 1
-            stats.views_daily += 1
-            stats.views_weekly += 1
-            stats.views_monthly += 1
-            stats.last_view_at = now
-            stats.save()
+        ListingsService.stats_handler(listing, user=self.request.user)
 
         serializer = self.get_serializer(listing)
-
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
@@ -96,7 +73,7 @@ class ListingCreateView(GenericAPIView):
         listing = serializer.save(owner=self.request.user, exchange_rate=rates, price_converted=converted_price)
         ListingStatsModel.objects.create(listing=listing)
 
-        profanity_validation(listing)
+        ListingsService.profanity_validation(listing)
 
         response_serializer = ListingSerializer(listing)
 
@@ -158,7 +135,7 @@ class ListingUpdateView(GenericAPIView):
 
         listing = serializer.save(exchange_rate=rates, price_converted=converted_price)
 
-        profanity_validation(listing)
+        ListingsService.profanity_validation(listing)
 
         response_serializer = ListingSerializer(listing)
 
