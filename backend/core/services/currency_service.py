@@ -24,22 +24,27 @@ class CurrencyService:
 
     @staticmethod
     def convert_price(price, currency, exchange_rate):
-        converted = {}
 
         usd_rate = exchange_rate['USD']['sale']
         eur_rate = exchange_rate['EUR']['sale']
 
+        if currency == "USD":
+            usd = price
+            uah = round(price * usd_rate, 2)
+            eur = round(uah / eur_rate, 2)
 
-        if currency == 'USD':
-            converted['UAH'] = round(price * usd_rate, 2)
-            converted['EUR'] = round(converted['UAH'] // eur_rate, 2)
+        elif currency == "EUR":
+            eur = price
+            uah = round(price * eur_rate, 2)
+            usd = round(uah / usd_rate, 2)
 
-        elif currency == 'EUR':
-            converted['UAH'] = round(price * eur_rate, 2)
-            converted['USD'] = round(converted['UAH'] // usd_rate)
+        else:  # UAH
+            uah = price
+            usd = round(price / usd_rate, 2)
+            eur = round(price / eur_rate, 2)
 
-        elif currency == 'UAH':
-            converted['USD'] = round(price // usd_rate)
-            converted['EUR'] = round(price // eur_rate)
-
-        return converted
+        return {
+            "USD": usd,
+            "EUR": eur,
+            "UAH": uah,
+        }

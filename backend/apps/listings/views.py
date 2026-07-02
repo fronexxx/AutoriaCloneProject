@@ -7,6 +7,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
 from core.constants.choices import StatusChoices
+from core.services.avg_price_service import AveragePriceService
 from core.services.currency_service import CurrencyService
 from core.services.listings_service import ListingsService
 
@@ -74,6 +75,8 @@ class ListingCreateView(GenericAPIView):
         ListingStatsModel.objects.create(listing=listing)
 
         ListingsService.profanity_validation(listing)
+        if listing.status == StatusChoices.ACTIVE:
+            AveragePriceService.update_average_prices(listing)
 
         response_serializer = ListingSerializer(listing)
 
@@ -136,6 +139,8 @@ class ListingUpdateView(GenericAPIView):
         listing = serializer.save(exchange_rate=rates, price_converted=converted_price)
 
         ListingsService.profanity_validation(listing)
+        if listing.status == StatusChoices.ACTIVE:
+            AveragePriceService.update_average_prices(listing)
 
         response_serializer = ListingSerializer(listing)
 
