@@ -14,6 +14,7 @@ from core.services.listings_service import ListingsService
 from apps.listings.models import ListingModel, ListingStatsModel
 from apps.listings.serializer import ListingCreateUpdateDeleteSerializer, ListingDetailSerializer, ListingSerializer
 from apps.users.permissions import IsSeller
+from apps.users.roles_and_account_type import AccountType
 
 
 class PublicListingListView(ListAPIView):
@@ -64,6 +65,20 @@ class ListingCreateView(GenericAPIView):
         rates = CurrencyService.get_exchange_rates()
         serializer = ListingCreateUpdateDeleteSerializer(data=data)
         serializer.is_valid(raise_exception=True)
+
+        if(
+                self.request.user.account_type == AccountType.BASIC
+                and ListingModel.objects.filter(owner=self.request.user).exists()
+        ):
+            return Response(
+                {
+                    "detail": (
+                        "Basic account users can create only one listing. "
+                        "Upgrade to Premium for unlimited listings."
+                    )
+                },
+                status=status.HTTP_403_FORBIDDEN
+            )
 
         converted_price = CurrencyService.convert_price(
             price=serializer.validated_data['price'],

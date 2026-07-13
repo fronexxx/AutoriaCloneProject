@@ -8,8 +8,6 @@ venv/
 .env/
 .venv/
 
-# Environment variables
-.env
 
 # Django
 *.log
@@ -85,5 +83,3 @@ pip-wheel-metadata/
 
 # Jupyter
 .ipynb_checkpoints/
-
-/backend/bad_words.txt
